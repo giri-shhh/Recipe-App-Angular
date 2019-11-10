@@ -9,7 +9,7 @@ export class RecipeService {
 
     private recipes: Recipe[] = [
         new Recipe('First Recipe',
-            'This is simply a test', 'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
+            'This is simply a test', 'https://food.fnr.sndimg.com/content/dam/images/food/fullset/2003/9/29/0/ig1a09_roasted_carrots.jpg.rend.hgtvcom.826.620.suffix/1393645736360.jpeg',
             [
                 new Ingredient('Meat', 12),
                 new Ingredient('French Fries', 25)
