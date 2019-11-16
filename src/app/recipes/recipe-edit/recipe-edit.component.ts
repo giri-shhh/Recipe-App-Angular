@@ -16,7 +16,7 @@ export class RecipeEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params.id;
+      this.id = params.id;
       this.editMode = params.id != null;
       this.initForm();
     });
@@ -38,6 +38,10 @@ export class RecipeEditComponent implements OnInit {
         amount: new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
       })
     );
+  }
+
+  ondeleteIngredient(index: number) {
+    (this.recipeForm.get('ingredients') as FormArray).removeAt(index);
   }
 
   onCancel() {
