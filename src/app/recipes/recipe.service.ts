@@ -8,7 +8,7 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
 @Injectable()
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
-    private recipes: Recipe[] = [
+   /*  private recipes: Recipe[] = [
         new Recipe('First Recipe',
             'This is simply a test', 'https://www.hap.org/-/media/blog/images/post-images/201812/hap-minestrone-600x300.jpg?h=300&w=600&la=en&hash=56BCA000C02ABB32467E4F36C148C4B4A095CC30',
             [
@@ -22,12 +22,19 @@ export class RecipeService {
                 new Ingredient('Buns', 20),
                 new Ingredient('Meat', 20)
             ])
-    ];
+    ]; */
+
+    private recipes: Recipe[] = [];
 
     constructor(private shoppingListService: ShoppingListService) { }
 
     getRecipes() {
         return this.recipes.slice();
+    }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.getRecipes());
     }
 
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
@@ -49,7 +56,7 @@ export class RecipeService {
     }
 
     deleteRecipe(index: number) {
-        this.recipes.slice(index, 1);
+        this.recipes.splice(index, 1);
         this.recipesChanged.next(this.getRecipes());
     }
 }
