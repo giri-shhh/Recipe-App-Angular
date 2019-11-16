@@ -1,12 +1,13 @@
+import { AuthService } from './../auth/auth.service';
 import { RecipeService } from './../recipes/recipe.service';
-import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, tap, take, exhaustMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Recipe } from '../recipes/recipe.model';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
-    constructor(private http: HttpClient, private recipeService: RecipeService) {
+    constructor(private http: HttpClient, private recipeService: RecipeService, private authService: AuthService) {
     }
 
     storeRecipes() {
@@ -14,19 +15,19 @@ export class DataStorageService {
         this.http
             .put('https://shopping-app-55751.firebaseio.com/recipes.json', recipes)
             .subscribe(response => {
-                console.log(response);
             });
     }
 
     fetchRecipes() {
         return this.http
-            .get<Recipe[]>('https://shopping-app-55751.firebaseio.com/recipes.json')
-            .pipe(map(recipes => {
-                return recipes.map(recipe => {
-                    return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
-                });
-            }), tap(recipes => {
-                this.recipeService.setRecipes(recipes);
-            }));
+            .get<Recipe[]>('https://shopping-app-55751.firebaseio.com/recipes.json', {
+            }).pipe(
+                map(recipes => {
+                    return recipes.map(recipe => {
+                        return { ...recipe, ingredients: recipe.ingredients ? recipe.ingredients : [] };
+                    });
+                }), tap(recipes => {
+                    this.recipeService.setRecipes(recipes);
+                }));
     }
 }
