@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -25,7 +26,7 @@ export class AuthService {
 
     signUp(email: string, password: string) {
         return this.http.post<AuthResponseData>(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAf6Ie8l7UbTLnB1k3jfdAqJmw9UCqza18',
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firabaseKey,
             {
                 email,
                 password,
@@ -37,7 +38,7 @@ export class AuthService {
 
     login(email: string, password: string) {
         // tslint:disable-next-line: max-line-length
-        return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAf6Ie8l7UbTLnB1k3jfdAqJmw9UCqza18', {
+        return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firabaseKey, {
             email,
             password,
             returnSecureToken: true
