@@ -1,3 +1,4 @@
+import { LoggingService } from './logging.service';
 import { CoreModule } from './core.module';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
