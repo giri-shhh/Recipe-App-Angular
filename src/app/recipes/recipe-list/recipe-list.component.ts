@@ -1,3 +1,4 @@
+import { DataStorageService } from './../../shared/data-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../recipe.model';
@@ -12,13 +13,21 @@ import { RecipeService } from '../recipe.service';
 export class RecipeListComponent implements OnInit {
   recipes: Recipe[];
 
-  constructor(private recipeService: RecipeService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private recipeService: RecipeService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
     this.recipeService.recipesChanged.subscribe((recipes: Recipe[]) => {
       this.recipes = recipes;
     });
     this.recipes = this.recipeService.getRecipes();
+    if (this.recipes.length === 0) {
+      this.dataStorageService.fetchRecipes().subscribe((recipes: Recipe[]) => {
+        this.recipes = recipes;
+      });
+    }
   }
 
   onNewRecipe() {
